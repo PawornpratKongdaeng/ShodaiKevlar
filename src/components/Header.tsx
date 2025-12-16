@@ -13,7 +13,7 @@ export function Header({ lang }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
 
-  // Detect Scroll เพื่อเปลี่ยนสี Header
+  // 1. Detect Scroll เพื่อเปลี่ยนสี Header (เหมือนเดิม)
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
@@ -22,9 +22,27 @@ export function Header({ lang }: HeaderProps) {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // ฟังก์ชันสลับภาษา (ยังคงหน้าเดิมไว้)
+  // ✅ 2. เพิ่มส่วนนี้: ล็อค Scroll เมื่อเปิดเมนู
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      // เมื่อเปิดเมนู: ห้ามเลื่อนหน้าจอ
+      document.body.style.overflow = 'hidden'
+    } else {
+      // เมื่อปิดเมนู: ให้เลื่อนได้ปกติ
+      document.body.style.overflow = 'unset'
+    }
+    
+    // Cleanup function: เผื่อกรณี component ถูก destroy
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [isMobileMenuOpen])
+
+  // ฟังก์ชันสลับภาษา
   const switchLang = (targetLang: string) => {
     if (!pathname) return `/${targetLang}`
+    // ถ้า path เป็น '/' (root) ต้องจัดการพิเศษหน่อยเพื่อไม่ให้ url พัง
+    if (pathname === '/th' || pathname === '/en') return `/${targetLang}`
     return pathname.replace(`/${lang}`, `/${targetLang}`)
   }
 
@@ -38,9 +56,14 @@ export function Header({ lang }: HeaderProps) {
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-[#020000]/80 backdrop-blur-md border-b border-white/10 py-3 shadow-lg' 
-          : 'bg-transparent py-5'
+        // ✅ 3. ปรับ Logic ตรงนี้:
+        // ถ้าเปิดเมนูอยู่ (isMobileMenuOpen) -> ให้เป็น bg-transparent (ใส) ทันที
+        // ถ้าปิดเมนู และเลื่อนลงมา (isScrolled) -> ให้เป็น bg-black (ดำ)
+        isMobileMenuOpen 
+            ? 'bg-transparent border-none' 
+            : (isScrolled 
+                ? 'bg-[#020000]/80 backdrop-blur-md border-b border-white/10 py-3 shadow-lg' 
+                : 'bg-transparent py-5')
       }`}
     >
       <div className="container mx-auto px-4 flex items-center justify-between">
@@ -66,10 +89,8 @@ export function Header({ lang }: HeaderProps) {
             </Link>
           ))}
           
-          {/* SEPARATOR */}
           <div className="w-px h-4 bg-white/20"></div>
 
-          {/* LANGUAGE SWITCHER (DESKTOP) */}
           <div className="flex items-center gap-1 bg-white/5 rounded-full p-1 border border-white/10">
             <Link
               href={switchLang('th')}
@@ -103,28 +124,31 @@ export function Header({ lang }: HeaderProps) {
         </button>
 
         {/* MOBILE FULLSCREEN MENU */}
-        <div className={`fixed inset-0 bg-black/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center transition-all duration-300 ${
+        {/* ✅ ปรับพื้นหลังให้ทึบขึ้น (bg-black) เพื่อปิดบังเนื้อหาที่ถูก scroll ด้านหลัง */}
+        <div className={`fixed inset-0 bg-[#020000] z-40 flex flex-col items-center justify-center transition-all duration-300 ${
           isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
         }`}>
-           <nav className="flex flex-col items-center gap-8 mb-8">
+            {/* Background Effects ในเมนู (Optional: เพื่อความสวยงาม) */}
+            <div className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-red-900/20 rounded-full blur-[100px] pointer-events-none"></div>
+
+            <nav className="flex flex-col items-center gap-8 mb-8 relative z-10">
               {navLinks.map((link) => (
                 <Link 
                   key={link.href} 
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-2xl font-black uppercase text-white hover:text-red-500"
+                  className="text-3xl font-black uppercase text-white hover:text-red-500 transition-transform hover:scale-110"
                 >
                   {link.label}
                 </Link>
               ))}
-           </nav>
+            </nav>
 
-           {/* LANGUAGE SWITCHER (MOBILE) */}
-           <div className="flex gap-4">
-              <Link href={switchLang('th')} className={`text-lg font-bold ${lang === 'th' ? 'text-red-500 underline' : 'text-gray-500'}`}>THAI</Link>
-              <div className="w-px h-6 bg-white/20"></div>
-              <Link href={switchLang('en')} className={`text-lg font-bold ${lang === 'en' ? 'text-red-500 underline' : 'text-gray-500'}`}>ENGLISH</Link>
-           </div>
+            <div className="flex gap-4 relative z-10">
+              <Link href={switchLang('th')} className={`text-xl font-bold ${lang === 'th' ? 'text-red-500 underline decoration-4 underline-offset-8' : 'text-gray-500'}`}>THAI</Link>
+              <div className="w-px h-8 bg-white/20"></div>
+              <Link href={switchLang('en')} className={`text-xl font-bold ${lang === 'en' ? 'text-red-500 underline decoration-4 underline-offset-8' : 'text-gray-500'}`}>ENGLISH</Link>
+            </div>
         </div>
 
       </div>

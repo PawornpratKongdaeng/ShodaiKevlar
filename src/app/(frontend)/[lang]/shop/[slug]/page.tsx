@@ -11,30 +11,34 @@ export async function generateStaticParams() {
   const products = await payload.find({
     collection: 'products',
     limit: 100,
+    // เพิ่ม locale ตรงนี้ด้วยเพื่อให้มั่นใจว่าดึง slug ของทุกภาษา (ถ้า slug เป็น localized)
+    // แต่ถ้า slug ใช้เหมือนกันทั้ง 2 ภาษา ไม่ต้องใส่ตรงนี้ก็ได้
   })
 
   // สร้าง params สำหรับทั้ง 2 ภาษา
   const params: any[] = []
   products.docs.forEach((product: any) => {
     if (product.slug) {
-        params.push({ lang: 'th', slug: product.slug })
-        params.push({ lang: 'en', slug: product.slug })
+      params.push({ lang: 'th', slug: product.slug })
+      params.push({ lang: 'en', slug: product.slug })
     }
   })
   return params
 }
 
-export default async function ProductDetailPage({ 
-    params 
-}: { 
-    params: Promise<{ lang: string; slug: string }> 
+export default async function ProductDetailPage({
+  params
+}: {
+  params: Promise<{ lang: string; slug: string }>
 }) {
   const { lang, slug } = await params
-  
+
   // 2. Fetch ข้อมูลสินค้าตาม Slug
   const payload = await getPayload({ config: configPromise })
   const products = await payload.find({
     collection: 'products',
+    // ✅ จุดที่แก้ไข: ต้องระบุภาษา (locale) ที่จะดึงด้วย
+    locale: lang as 'th' | 'en', 
     where: {
       slug: {
         equals: slug,
@@ -51,10 +55,10 @@ export default async function ProductDetailPage({
 
   return (
     <main className="min-h-screen bg-[#020000] font-sans selection:bg-orange-600 selection:text-white relative">
-      
+
       {/* Background Ambient */}
       <div className="fixed inset-0 z-0 pointer-events-none">
-         <div className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-red-900/10 rounded-full blur-[120px] mix-blend-screen"></div>
+        <div className="absolute top-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-red-900/10 rounded-full blur-[120px] mix-blend-screen"></div>
       </div>
 
       <div className="relative z-50">
@@ -62,14 +66,14 @@ export default async function ProductDetailPage({
       </div>
 
       <div className="container mx-auto px-4 pt-32 pb-20 relative z-10">
-        
+
         {/* Breadcrumb (ทางนำทาง) */}
         <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 font-bold uppercase tracking-wider">
-            <a href={`/${lang}`} className="hover:text-white">Home</a>
-            <span>/</span>
-            <a href={`/${lang}/shop`} className="hover:text-white">Shop</a>
-            <span>/</span>
-            <span className="text-red-500">{product.name}</span>
+          <a href={`/${lang}`} className="hover:text-white">Home</a>
+          <span>/</span>
+          <a href={`/${lang}/shop`} className="hover:text-white">Shop</a>
+          <span>/</span>
+          <span className="text-red-500">{product.name}</span>
         </div>
 
         {/* เรียกใช้ Component แสดงผล */}
