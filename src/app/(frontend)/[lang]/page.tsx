@@ -216,23 +216,6 @@ export default async function HomePage({ params }: { params: Promise<{ lang: str
         </div>
       </section>
 
-      {/* Language Toggle */}
-      <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 p-1 bg-black/60 backdrop-blur-xl border border-red-900/30 rounded-full flex gap-1 shadow-[0_0_20px_rgba(220,38,38,0.3)]">
-        <Link
-          href="/th"
-          className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-bold transition-all ${lang === 'th' ? 'bg-gradient-to-br from-red-600 to-orange-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/10'
-            }`}
-        >
-          TH
-        </Link>
-        <Link
-          href="/en"
-          className={`w-8 h-8 md:w-10 md:h-10 rounded-full flex items-center justify-center text-xs md:text-sm font-bold transition-all ${lang === 'en' ? 'bg-gradient-to-br from-red-600 to-orange-600 text-white shadow-lg' : 'text-gray-400 hover:text-white hover:bg-white/10'
-            }`}
-        >
-          EN
-        </Link>
-      </div>
     </main>
   )
 }

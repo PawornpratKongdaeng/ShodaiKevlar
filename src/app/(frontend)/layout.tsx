@@ -22,8 +22,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
     <html lang={lang}>
       <body>
         <main>{children}</main>
-        {/* ส่งค่า lang ไปให้ Footer */}
-        <Footer lang={lang as 'th' | 'en'} />
+
       </body>
     </html>
   )

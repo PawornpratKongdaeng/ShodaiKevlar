@@ -83,7 +83,7 @@ export function ProductView({ product, lang }: ProductViewProps) {
         <div className="flex flex-col sm:flex-row gap-4">
           {/* ปุ่มสั่งซื้อ (Line) */}
           <a 
-            href="https://line.me/ti/p/YOUR_LINE_ID"
+            href="https://line.me/R/ti/p/@shodaiev"
             target="_blank"
             rel="noreferrer"
             className="flex-1 bg-gradient-to-r from-green-600 to-green-500 hover:to-green-400 text-white font-bold py-4 px-8 rounded-full text-center transition-all shadow-[0_0_20px_rgba(34,197,94,0.3)] hover:shadow-[0_0_30px_rgba(34,197,94,0.5)] flex items-center justify-center gap-2"
