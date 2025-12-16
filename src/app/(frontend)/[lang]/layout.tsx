@@ -20,7 +20,7 @@ export default async function RootLayout({ children, params }: LayoutProps) {
 
   return (
     // 4. ใส่ lang ให้ tag html (Dynamic)
-    <html lang={lang}>
+     <html lang={lang} suppressHydrationWarning>
       <body>
         <main>{children}</main>
         {/* ส่งค่า lang ไปให้ Footer */}

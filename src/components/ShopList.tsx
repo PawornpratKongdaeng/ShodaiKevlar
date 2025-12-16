@@ -77,15 +77,6 @@ export function ShopList({ products, lang }: ShopListProps) {
           </div>
 
           {/* Sort Dropdown */}
-          <select 
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value)}
-            className="w-full md:w-auto bg-black/50 border border-white/10 text-white rounded-full py-2.5 px-4 focus:outline-none focus:border-red-600 cursor-pointer appearance-none hover:bg-white/5 transition-colors"
-          >
-            <option value="newest">{lang === 'th' ? 'มาใหม่ล่าสุด' : 'Newest Arrivals'}</option>
-            <option value="price-asc">{lang === 'th' ? 'ราคา: ต่ำ -> สูง' : 'Price: Low to High'}</option>
-            <option value="price-desc">{lang === 'th' ? 'ราคา: สูง -> ต่ำ' : 'Price: High to Low'}</option>
-          </select>
         </div>
 
         {/* Categories (Pills) */}

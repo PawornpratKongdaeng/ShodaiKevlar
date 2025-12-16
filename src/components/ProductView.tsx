@@ -26,15 +26,18 @@ export function ProductView({ product, lang }: ProductViewProps) {
       <div className="space-y-4">
         {/* รูปใหญ่ */}
         <div className="relative aspect-square rounded-3xl overflow-hidden border border-white/10 bg-white/5 group">
-          <img 
-            src={activeImage} 
-            alt={product.name} 
-            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-          />
-          {product.status === 'instock' && (
-             <div className="absolute top-4 right-4 bg-green-500/20 backdrop-blur border border-green-500 text-green-400 px-3 py-1 rounded-full text-xs font-bold uppercase">
-               Ready to Ship
-             </div>
+          {/* 👇 แก้ตรงนี้: เช็คว่า activeImage ไม่ใช่ค่าว่างก่อน render */}
+          {activeImage ? (
+            <img 
+              src={activeImage} 
+              alt={product.name} 
+              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+            />
+          ) : (
+            // (Optional) ส่วนนี้จะแสดงถ้าไม่มีรูป (Placeholder)
+            <div className="w-full h-full flex items-center justify-center bg-gray-900 text-gray-500">
+               No Image
+            </div>
           )}
         </div>
 
@@ -91,14 +94,6 @@ export function ProductView({ product, lang }: ProductViewProps) {
             <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 .5C5.6 .5.5 5.6.5 11.8c0 3.2 1.8 6 4.5 7.6v3.4l4.2-2.3c.9.2 1.8.4 2.8.4 6.4 0 11.5-5.1 11.5-11.3C23.5 5.6 18.4.5 12 .5z"/></svg>
             {lang === 'th' ? 'สั่งซื้อผ่าน LINE' : 'Buy via LINE'}
           </a>
-
-          {/* ปุ่มติดต่อสอบถาม */}
-          <Link 
-            href={`/${lang}/contact`}
-            className="flex-1 border border-white/20 hover:bg-white/10 text-white font-bold py-4 px-8 rounded-full text-center transition-all"
-          >
-            {lang === 'th' ? 'สอบถามเพิ่มเติม' : 'Contact Us'}
-          </Link>
         </div>
 
         {/* Features / Guarantee */}

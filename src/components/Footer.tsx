@@ -30,10 +30,8 @@ export function Footer({ lang }: FooterProps) {
             
             {/* Social Icons */}
             <div className="flex items-center gap-4">
-              <SocialLink href="#" icon={<FacebookIcon />} label="Facebook" />
-              <SocialLink href="#" icon={<InstagramIcon />} label="Instagram" />
-              <SocialLink href="#" icon={<LineIcon />} label="Line" />
-              <SocialLink href="#" icon={<TiktokIcon />} label="TikTok" />
+              <SocialLink href="https://www.facebook.com/shodaiev/" icon={<FacebookIcon />} label="Facebook" />
+              <SocialLink href="https://line.me/ti/p/@shodaiev" icon={<LineIcon />} label="Line" />
             </div>
           </div>
 
@@ -45,9 +43,6 @@ export function Footer({ lang }: FooterProps) {
             <ul className="space-y-4">
               <FooterLink href={`/${lang}`} label={isTh ? 'หน้าแรก' : 'Home'} />
               <FooterLink href={`/${lang}/shop`} label={isTh ? 'สินค้าทั้งหมด' : 'All Products'} />
-              <FooterLink href={`/${lang}/about`} label={isTh ? 'เกี่ยวกับเรา' : 'About Us'} />
-              <FooterLink href={`/${lang}/contact`} label={isTh ? 'ติดต่อเรา' : 'Contact Us'} />
-              <FooterLink href={`/${lang}/tracking`} label={isTh ? 'เช็คเลขพัสดุ' : 'Order Tracking'} />
             </ul>
           </div>
 
@@ -57,17 +52,23 @@ export function Footer({ lang }: FooterProps) {
               {isTh ? 'ข้อมูลติดต่อ' : 'Contact Us'}
             </h3>
             <ul className="space-y-6">
-              {/* Address */}
-              <li className="flex items-start gap-4 group">
-                <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-colors shrink-0">
-                  <MapPinIcon />
-                </div>
-                <div>
-                  <span className="block text-white font-bold text-sm mb-1">{isTh ? 'ที่อยู่ร้าน' : 'Address'}</span>
-                  <span className="text-gray-400 text-sm">
-                    123/45 ถนนสายไหม แขวงสายไหม <br /> เขตสายไหม กรุงเทพฯ 10220
-                  </span>
-                </div>
+             <li>
+                <a 
+                  href="https://www.google.com/maps/search/?api=1&query=ซอย+รามอินทรา+46+แยก+9+กรุงเทพมหานคร" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-4 group cursor-pointer"
+                >
+                  <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-colors shrink-0">
+                    <MapPinIcon />
+                  </div>
+                  <div>
+                    <span className="block text-white font-bold text-sm mb-1">{isTh ? 'ที่อยู่ร้าน' : 'Address'}</span>
+                    <span className="text-gray-400 text-sm group-hover:text-white transition-colors">
+                      ซอย รามอินทรา 46 แยก 9 รามอินทรา เขตคันนายาว กรุงเทพมหานคร 10230
+                    </span>
+                  </div>
+                </a>
               </li>
 
               {/* Phone */}
@@ -83,20 +84,24 @@ export function Footer({ lang }: FooterProps) {
                 </div>
               </li>
 
-              {/* Line / Email */}
               <li className="flex items-start gap-4 group">
+                <a
+                href="https://line.me/ti/p/@shodaiev" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-4 group cursor-pointer"
+                >
                 <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-red-500 group-hover:bg-red-600 group-hover:text-white transition-colors shrink-0">
                   <MailIcon />
                 </div>
                 <div>
-                  <span className="block text-white font-bold text-sm mb-1">Line / Email</span>
-                  <span className="text-gray-400 text-sm block">Line ID: @shodaishop</span>
-                  <span className="text-gray-400 text-sm block">contact@shodai.com</span>
+                  <span className="block text-white font-bold text-sm mb-1">Line</span>
+                  <span className="text-gray-400 text-sm group-hover:text-white transition-colors">@shodaishop</span>
                 </div>
+              </a>
               </li>
             </ul>
           </div>
-
         </div>
 
         {/* COPYRIGHT */}

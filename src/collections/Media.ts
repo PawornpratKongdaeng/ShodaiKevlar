@@ -9,10 +9,12 @@ export const Media: CollectionConfig = {
     {
       name: 'alt',
       type: 'text',
-      required: true,
+      // ❌ ลบ required: true ออก หรือใส่เป็น false
+      // เพื่อให้ระบบยอมสร้างรูปโดยไม่ต้องกรอก Alt ทันที (ค่อยมาแก้ทีหลังได้)
+      required: false, 
+      label: 'Alt Text (คำอธิบายรูป)',
     },
   ],
-  // ✅ แก้ตรงนี้: ระบุ path และประเภทไฟล์
   upload: {
     staticDir: 'media', 
     imageSizes: [
@@ -30,6 +32,6 @@ export const Media: CollectionConfig = {
       },
     ],
     adminThumbnail: 'thumbnail',
-    mimeTypes: ['image/*'], // บังคับให้รับแค่รูปภาพ (ป้องกันคนอัปไฟล์แปลกๆ)
+    mimeTypes: ['image/*'], 
   },
 }

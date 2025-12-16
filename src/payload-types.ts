@@ -152,7 +152,7 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt: string;
+  alt?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -200,12 +200,10 @@ export interface Product {
   category?: ('exterior' | 'interior' | 'accessories') | null;
   description?: string | null;
   image: string | Media;
-  gallery?:
-    | {
-        image?: (string | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
+  /**
+   * สามารถเลือกได้หลายรูปพร้อมกัน
+   */
+  gallery?: (string | Media)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -364,12 +362,7 @@ export interface ProductsSelect<T extends boolean = true> {
   category?: T;
   description?: T;
   image?: T;
-  gallery?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
+  gallery?: T;
   updatedAt?: T;
   createdAt?: T;
 }
