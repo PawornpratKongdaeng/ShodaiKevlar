@@ -4,6 +4,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
+import { s3Storage } from '@payloadcms/storage-s3'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
@@ -38,5 +39,20 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
-  plugins: [],
+  plugins: [
+    s3Storage({
+      collections: {
+        media: true, // 👈 บอกว่าจะใช้ S3 กับ Collection ชื่อ 'media'
+      },
+      bucket: process.env.S3_BUCKET!,
+      config: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
+        },
+        region: process.env.S3_REGION || 'auto', // Cloudflare R2 ใช้ 'auto'
+        endpoint: process.env.S3_ENDPOINT, // ใส่ URL ของ R2/S3
+        forcePathStyle: true, // จำเป็นสำหรับ R2
+      },
+    }),],
 })
