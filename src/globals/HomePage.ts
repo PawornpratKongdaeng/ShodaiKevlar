@@ -2,19 +2,8 @@ import type { GlobalConfig } from 'payload'
 
 export const HomePage: GlobalConfig = {
   slug: 'home-page',
+  label: 'แก้ไขหน้าแรก (Home Page)',
   fields: [
-    {
-      name: 'heroTitle',
-      type: 'text',
-      localized: true,
-      label: 'หัวข้อใหญ่ (Hero Title)',
-    },
-    {
-      name: 'heroSubtitle',
-      type: 'textarea',
-      localized: true,
-      label: 'คำโปรย (Hero Subtitle)',
-    },
     {
       name: 'bannerTH', 
       label: 'Banner (ภาษาไทย)',
@@ -29,21 +18,6 @@ export const HomePage: GlobalConfig = {
       relationTo: 'media',
       required: true, 
     },
-    {
-      type: 'row',
-      fields: [
-        {
-          name: 'videoTitle',
-          type: 'text',
-          localized: true,
-          label: 'หัวข้อวิดีโอ',
-        },
-        {
-          name: 'videoUrl',
-          type: 'text', // ใส่ YouTube ID หรือ URL
-          label: 'YouTube Embed URL (เช่น https://www.youtube.com/embed/xxxx)',
-        },
-      ]
-    }
+    // ❌ ลบส่วน videoTitle, videoUrl เก่าทิ้งได้เลย
   ],
 }

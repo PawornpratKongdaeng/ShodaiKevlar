@@ -24,7 +24,7 @@ export const Products: CollectionConfig = {
       unique: true,
       admin: {
         position: 'sidebar', // ย้ายไปอยู่ด้านขวา ไม่รกหน้าจอ
-        description: 'URL ภาษาอังกฤษ ห้ามเว้นวรรค (เช่น civic-fc-hood)',
+        description: 'URL ภาษาอังกฤษ ห้ามเว้นวรรค ',
       },
       label: 'Slug (URL)',
     },
@@ -56,16 +56,6 @@ export const Products: CollectionConfig = {
       admin: {
         description: '',
       }
-    },
-    {
-      name: 'category',
-      type: 'select',
-      options: [
-        { label: 'Exterior (ภายนอก)', value: 'exterior' },
-        { label: 'Interior (ภายใน)', value: 'interior' },
-        { label: 'Accessories (ของแต่ง)', value: 'accessories' },
-      ],
-      label: 'หมวดหมู่',
     },
     {
       name: 'description',

@@ -9,6 +9,8 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Products } from './collections/Products'
+// 👇 Import มาแล้ว (ถูกต้อง)
+import { SiteVideos } from './globals/SiteVideos'
 import { HomePage } from './globals/HomePage'
 
 const filename = fileURLToPath(import.meta.url)
@@ -22,14 +24,19 @@ export default buildConfig({
     },
   },
   localization: {
-    locales: ['th', 'en'], // ภาษาที่มี
-    defaultLocale: 'th',   // ภาษาหลัก
-    fallback: true,        // ถ้าภาษาอังกฤษไม่มีข้อมูล ให้โชว์ไทยแทน
+    locales: ['th', 'en'],
+    defaultLocale: 'th',
+    fallback: true,
   },
 
-  globals: [HomePage],
+  // 👇👇👇 แก้ไขตรงนี้ครับ 👇👇👇
+  globals: [
+    HomePage,
+    SiteVideos, // ✅ ต้องเพิ่ม SiteVideos เข้าไปในนี้ด้วยครับ
+  ],
+  // 👆👆👆
 
-  collections: [Users, Media,Products],
+  collections: [Users, Media, Products],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
@@ -42,7 +49,7 @@ export default buildConfig({
   plugins: [
     s3Storage({
       collections: {
-        media: true, // 👈 บอกว่าจะใช้ S3 กับ Collection ชื่อ 'media'
+        media: true,
       },
       bucket: process.env.S3_BUCKET!,
       config: {
@@ -50,9 +57,10 @@ export default buildConfig({
           accessKeyId: process.env.S3_ACCESS_KEY_ID!,
           secretAccessKey: process.env.S3_SECRET_ACCESS_KEY!,
         },
-        region: process.env.S3_REGION || 'auto', // Cloudflare R2 ใช้ 'auto'
-        endpoint: process.env.S3_ENDPOINT, // ใส่ URL ของ R2/S3
-        forcePathStyle: true, // จำเป็นสำหรับ R2
+        region: process.env.S3_REGION || 'auto',
+        endpoint: process.env.S3_ENDPOINT,
+        forcePathStyle: true,
       },
-    }),],
+    }),
+  ],
 })

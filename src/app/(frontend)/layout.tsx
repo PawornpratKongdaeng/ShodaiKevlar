@@ -2,8 +2,8 @@ import React from 'react'
 import { Footer } from '@/components/Footer'
 
 export const metadata = {
-  description: 'A blank template using Payload in a Next.js app.',
-  title: 'Payload Blank Template',
+  description: 'Shodai Carbon - Premium Carbon Fiber Products',
+  title: 'Shodai Carbon - Premium Carbon Fiber Products',
 }
 
 // 1. กำหนด Type สำหรับ Props
@@ -22,10 +22,8 @@ export default async function RootLayout({ children, params }: LayoutProps) {
 
   return (
     // 4. ใส่ lang ให้ tag html
-   <html lang={lang} suppressHydrationWarning>
-      <body>
+      <body lang={lang}>
         <main>{children}</main>
       </body>
-    </html>
   )
 }

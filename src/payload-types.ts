@@ -91,9 +91,11 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('th' | 'en') | ('th' | 'en')[];
   globals: {
     'home-page': HomePage;
+    'site-videos': SiteVideo;
   };
   globalsSelect: {
     'home-page': HomePageSelect<false> | HomePageSelect<true>;
+    'site-videos': SiteVideosSelect<false> | SiteVideosSelect<true>;
   };
   locale: 'th' | 'en';
   user: User & {
@@ -191,13 +193,12 @@ export interface Product {
   id: string;
   name: string;
   /**
-   * URL ภาษาอังกฤษ ห้ามเว้นวรรค (เช่น civic-fc-hood)
+   * URL ภาษาอังกฤษ ห้ามเว้นวรรค
    */
   slug: string;
   price: number;
   status?: ('instock' | 'outofstock' | 'preorder') | null;
   carModel?: string | null;
-  category?: ('exterior' | 'interior' | 'accessories') | null;
   description?: string | null;
   image: string | Media;
   /**
@@ -359,7 +360,6 @@ export interface ProductsSelect<T extends boolean = true> {
   price?: T;
   status?: T;
   carModel?: T;
-  category?: T;
   description?: T;
   image?: T;
   gallery?: T;
@@ -412,12 +412,28 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface HomePage {
   id: string;
-  heroTitle?: string | null;
-  heroSubtitle?: string | null;
   bannerTH: string | Media;
   bannerEN: string | Media;
-  videoTitle?: string | null;
-  videoUrl?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-videos".
+ */
+export interface SiteVideo {
+  id: string;
+  videos?:
+    | {
+        videoType?: ('youtube' | 'upload') | null;
+        /**
+         * เช่น https://www.youtube.com/watch?v=xxxxx
+         */
+        youtubeUrl?: string | null;
+        videoFile?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -426,12 +442,25 @@ export interface HomePage {
  * via the `definition` "home-page_select".
  */
 export interface HomePageSelect<T extends boolean = true> {
-  heroTitle?: T;
-  heroSubtitle?: T;
   bannerTH?: T;
   bannerEN?: T;
-  videoTitle?: T;
-  videoUrl?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-videos_select".
+ */
+export interface SiteVideosSelect<T extends boolean = true> {
+  videos?:
+    | T
+    | {
+        videoType?: T;
+        youtubeUrl?: T;
+        videoFile?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

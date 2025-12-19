@@ -60,7 +60,7 @@ export function Header({ lang }: HeaderProps) {
         {/* ซ่อนเวลาเปิดเมนูมือถือ เพื่อไม่ให้ซ้อนกับ Logo ในเมนู (Optional: ถ้าชอบให้ซ้อนก็ลบ className hidden ออกได้) */}
         <Link href={`/${lang}`} className={`hidden md:block relative z-50 group transition-opacity duration-300`}>
     <span className="text-2xl md:text-3xl font-black italic tracking-tighter text-white uppercase group-hover:text-red-500 transition-colors">
-      SHODAI<span className="text-red-600 group-hover:text-white transition-colors">KEVLAR</span>
+      SHODAI<span className="text-red-600 group-hover:text-white transition-colors">CARBON</span>
     </span>
 </Link>
 
