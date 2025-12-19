@@ -1,29 +1,22 @@
 import React from 'react'
-import { Footer } from '@/components/Footer'
+import './globals.css' // ✅ 1. ย้าย import CSS มาไว้ที่ตัวแม่สุด
 
+// ✅ 2. Metadata และ Favicon อยู่ที่นี่ที่เดียว
 export const metadata = {
   description: 'Shodai Carbon - Premium Carbon Fiber Products',
   title: 'Shodai Carbon - Premium Carbon Fiber Products',
+  icons: {
+    icon: '/favicon.png',
+  },
 }
 
-// 1. กำหนด Type สำหรับ Props
-type LayoutProps = {
-  children: React.ReactNode
-  // 👇 แก้ตรงนี้: เติม ? หลัง lang เพื่อบอกว่าเป็น Optional (มีก็ได้ ไม่มีก็ได้)
-  params: Promise<{ lang?: string }> 
-}
-
-// 2. รับ params เข้ามาใน function
-export default async function RootLayout({ children, params }: LayoutProps) {
-  // 3. ดึงค่า lang ออกมาจาก params
-  const resolvedParams = await params
-  // 👇 แก้ตรงนี้: ถ้าไม่มีค่า lang ส่งมา ให้ใช้ 'en' แทน (Fallback)
-  const lang = resolvedParams?.lang || 'en'
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    // 4. ใส่ lang ให้ tag html
-      <body lang={lang}>
-        <main>{children}</main>
+    // ✅ 3. มี <html> และ <body> แค่ที่นี่ที่เดียว
+    <html lang="en" suppressHydrationWarning> 
+      <body className="antialiased">
+        {children}
       </body>
+    </html>
   )
 }

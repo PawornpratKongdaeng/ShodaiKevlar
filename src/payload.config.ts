@@ -9,18 +9,41 @@ import { s3Storage } from '@payloadcms/storage-s3'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Products } from './collections/Products'
-// 👇 Import มาแล้ว (ถูกต้อง)
+import PayloadLogo from './components/PayloadLogo'
 import { SiteVideos } from './globals/SiteVideos'
 import { HomePage } from './globals/HomePage'
+
+// ❌ ลบบรรทัด import {css} ... ออกครับ ไม่ต้องใช้
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
+    // ✅ จุดสำคัญ: ตรวจสอบว่าไฟล์ admin-theme.css อยู่ที่ src/styles/admin-theme.css จริงๆ
+    
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+    
+    // ✅ ใช้ as any เพื่อแก้ Error เรื่อง Type (ตามที่เราคุยกัน)
+    components: {
+      graphics: {
+        Logo: PayloadLogo as any, 
+        Icon: PayloadLogo as any, 
+      },
+    },
+    
+    meta: {
+      titleSuffix: '- SHODAI KEVLAR Admin',
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/png', // หรือ 'image/x-icon' ถ้าใช้ไฟล์ .ico
+          url: '/favicon.png', // ลิงก์ไปยังไฟล์ในโฟลเดอร์ public
+        },
+      ],
     },
   },
   localization: {
@@ -28,14 +51,10 @@ export default buildConfig({
     defaultLocale: 'th',
     fallback: true,
   },
-
-  // 👇👇👇 แก้ไขตรงนี้ครับ 👇👇👇
   globals: [
     HomePage,
-    SiteVideos, // ✅ ต้องเพิ่ม SiteVideos เข้าไปในนี้ด้วยครับ
+    SiteVideos, 
   ],
-  // 👆👆👆
-
   collections: [Users, Media, Products],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

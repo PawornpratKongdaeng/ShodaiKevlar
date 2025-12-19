@@ -1,31 +1,27 @@
 import React from 'react'
-import '../../(frontend)/globals.css'
 import { Footer } from '@/components/Footer'
 
-export const metadata = {
-  description: 'Shodai Carbon - Premium Carbon Fiber Products',
-  title: 'Shodai Carbon - Premium Carbon Fiber Products',
-}
+// ไม่ต้องใส่ metadata ซ้ำ (มันจะใช้ของตัวแม่เอง หรือถ้าจะแก้ title เฉพาะหน้าค่อยใส่)
 
-// 1. กำหนด Type สำหรับ Props
 type LayoutProps = {
   children: React.ReactNode
-  params: Promise<{ lang: string }> // ต้องรับ params เป็น Promise
+  params: Promise<{ lang: string }>
 }
 
-// 2. รับ params เข้ามาใน function
-export default async function RootLayout({ children, params }: LayoutProps) {
-  // 3. ดึงค่า lang ออกมาจาก params
+// ✅ เปลี่ยนชื่อ Function ไม่ให้ซ้ำ (optional)
+export default async function LangLayout({ children, params }: LayoutProps) {
   const { lang } = await params
 
   return (
-    // 4. ใส่ lang ให้ tag html (Dynamic)
-     <html lang={lang} suppressHydrationWarning>
-      <body>
-        <main>{children}</main>
-        {/* ส่งค่า lang ไปให้ Footer */}
-        <Footer lang={lang as 'th' | 'en'} />
-      </body>
-    </html>
+    // ❌ ลบ <html> และ <body> ทิ้งให้หมด
+    // ✅ ใช้ Fragment (<>...</>) หรือ <div> ห่อแทน
+    <div className="flex flex-col min-h-screen"> 
+      <main className="grow">
+        {children}
+      </main>
+      
+      {/* Footer อยู่ที่นี่ ถูกต้องแล้ว เพราะต้องรับค่า lang */}
+      <Footer lang={lang as 'th' | 'en'} />
+    </div>
   )
 }
